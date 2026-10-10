@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Manage the stock in a business.
@@ -26,7 +27,13 @@ public class StockManager
      */
     public void addProduct(Product item)
     {
-        stockList.add(item);
+        // Challenge
+        if (findProduct(item.getID()) == null) {
+            stockList.add(item);
+        }
+        else {
+            System.out.println("Error: ID is already in use.");
+        }
     }
     
     /**
@@ -37,6 +44,13 @@ public class StockManager
      */
     public void delivery(int id, int amount)
     {
+        Product p = findProduct(id);
+        if (p != null) {
+            p.increaseQuantity(amount);
+        }
+        else {
+            System.out.println("Invalid ID");
+        }
     }
     
     /**
@@ -46,6 +60,25 @@ public class StockManager
      */
     public Product findProduct(int id)
     {
+        Iterator<Product> it = stockList.iterator();
+        while (it.hasNext()) {
+            Product p = it.next();
+            if (p.getID() == id) {
+                return p;
+            }
+        }
+        return null;
+    }
+    
+    // Challenge: Find product with name
+    public Product findProduct(String name){
+        Iterator<Product> it = stockList.iterator();
+        while (it.hasNext()) {
+            Product p = it.next();
+            if (p.getName().equals(name)) {
+                return p;
+            }
+        }
         return null;
     }
     
@@ -58,7 +91,13 @@ public class StockManager
      */
     public int numberInStock(int id)
     {
-        return 0;
+        Product p = findProduct(id);
+        if (p != null) {
+            return p.getQuantity();
+        }
+        else {
+            return 0;
+        }
     }
 
     /**
@@ -66,5 +105,22 @@ public class StockManager
      */
     public void printProductDetails()
     {
+        Iterator<Product> it = stockList.iterator();
+        while (it.hasNext()) {
+            Product p = it.next();
+            System.out.println(p.toString());
+        }
+    }
+    
+    // Challenge: Print details of products that are low
+    public void printLowProductDetails()
+    {
+        Iterator<Product> it = stockList.iterator();
+        while (it.hasNext()) {
+            Product p = it.next();
+            if (p.getQuantity() < 5) {
+                System.out.println(p.toString());
+            }
+        }
     }
 }
