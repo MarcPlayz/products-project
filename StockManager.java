@@ -19,10 +19,6 @@ public class StockManager
     public StockManager()
     {
         stockList = new ArrayList<>();
-        
-        addProduct(new Product(1, "Eggs"));
-        addProduct(new Product(3, "Banana"));
-        addProduct(new Product(80, "Milk"));
     }
 
     /**
